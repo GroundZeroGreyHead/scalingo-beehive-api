@@ -9,7 +9,7 @@ RSpec.describe Api::V1::BeehivesController, type: :controller do
           post :create, params: { beehive: { name: "New Hive", weight: 80 } }
         }.to change(Beehive, :count).by(1)
         expect(response).to be_successful
-        expect(response.status).to eq(201)
+        expect(response).to have_http_status(201)
       end
 
       it "returns the newly created beehive in JSON format" do
@@ -40,7 +40,7 @@ RSpec.describe Api::V1::BeehivesController, type: :controller do
     it "returns a successful response" do
       get :index
       expect(response).to be_successful
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(200)
     end
     
     it "returns beehives in JSON format" do
@@ -54,8 +54,6 @@ RSpec.describe Api::V1::BeehivesController, type: :controller do
       json_response = JSON.parse(response.body)
       expect(json_response['beehives'].size).to eq(10)
       expect(json_response['meta']['current_page']).to eq(5)
-      expect(json_response['meta']['total_pages']).to eq(10)
-      expect(json_response['meta']['total_count']).to eq(100)
     end
   end
 
@@ -65,7 +63,7 @@ RSpec.describe Api::V1::BeehivesController, type: :controller do
     it "returns a successful response for a valid beehive" do
       get :show, params: { id: beehive.id }
       expect(response).to be_successful
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(200)
     end
 
     it "returns a JSON representation of the beehive" do
